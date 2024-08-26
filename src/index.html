@@ -1,67 +1,70 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reconhecimento de Fala Contínuo</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reconhecimento de Fala Contínuo</title>
 </head>
+
 <body>
   <app-root></app-root>
-    <h1>Reconhecimento de Fala Contínuo</h1>
-    <button id="start-btn">Iniciar</button>
-    <button id="stop-btn">Parar</button>
-    <script>
-        // Verifica se o navegador suporta a API Web Speech
-        if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
-            const SpeechRecognition = window.webkitSpeechRecognition 
-            const recognition = new SpeechRecognition();
-            recognition.continuous = true; // Continua reconhecendo mesmo após uma pausa
-            recognition.interimResults = true; // Mostra resultados intermediários
-            recognition.lang = 'pt-BR'; // Define o idioma para Português Brasileiro
+  <h1>Reconhecimento de Fala Contínuo</h1>
+  <button id="start-btn">Iniciar</button>
+  <button id="stop-btn">Parar</button>
+  <script>
+    // Verifica se o navegador suporta a API Web Speech
+    if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+      const SpeechRecognition = window.webkitSpeechRecognition
+      const recognition = new SpeechRecognition();
+      recognition.continuous = true; // Continua reconhecendo mesmo após uma pausa
+      // recognition.interimResults = true; // Mostra resultados intermediários
+      recognition.lang = 'pt-BR'; // Define o idioma para Português Brasileiro
 
-            recognition.onresult = (event) => {
-                let finalTranscript = '';
-                let interimTranscript = '';
+      recognition.onresult = (event) => {
+        let finalTranscript = '';
+        let interimTranscript = '';
 
-                for (let i = event.resultIndex; i < event.results.length; i++) {
-                    const transcript = event.results[i][0].transcript;
-                    if (event.results[i].isFinal) {
-                        finalTranscript += transcript + ' ';
-                        console.log('Texto final:', finalTranscript);
-                    } else {
-                        interimTranscript += transcript;
-                    }
-                }
-                
-                // Atualiza o texto no console com resultados intermediários e finais
-                console.log('Texto intermediário:', interimTranscript);
-            };
-
-            recognition.onstart = () => {
-                console.log('Reconhecimento de fala iniciado...');
-            };
-
-            recognition.onend = () => {
-                console.log('Reconhecimento de fala terminou. Reiniciando...');
-                recognition.start(); // Reinicia o reconhecimento de fala se terminar
-            };
-
-            recognition.onerror = (event) => {
-                console.error('Erro no reconhecimento de fala:', event.error);
-                // Reinicia o reconhecimento se ocorrer um erro
-                recognition.start();
-            };
-
-            document.getElementById('start-btn').addEventListener('click', () => {
-                recognition.start();
-            });
-
-            document.getElementById('stop-btn').addEventListener('click', () => {
-                recognition.stop();
-            });
-        } else {
-            console.error('A API Web Speech não está disponível neste navegador.');
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          const transcript = event.results[i][0].transcript;
+          if (event.results[i].isFinal) {
+            finalTranscript += transcript + ' ';
+            alert('Texto final:', finalTranscript);
+          } else {
+            interimTranscript += transcript;
+          }
         }
-    </script>
+
+        // Atualiza o texto no console com resultados intermediários e finais
+        alert('Texto intermediário:', interimTranscript);
+      };
+
+      recognition.onstart = () => {
+        alert('Reconhecimento de fala iniciado...');
+      };
+
+      recognition.onend = () => {
+        alert('Reconhecimento de fala terminou. Reiniciando...');
+        recognition.start(); // Reinicia o reconhecimento de fala se terminar
+      };
+
+      recognition.onerror = (event) => {
+        alert('Erro no reconhecimento de fala:', event.error);
+        // Reinicia o reconhecimento se ocorrer um erro
+        recognition.start();
+      };
+
+      document.getElementById('start-btn').addEventListener('click', () => {
+        recognition.start();
+      });
+
+      document.getElementById('stop-btn').addEventListener('click', () => {
+        recognition.stop();
+      });
+    } else {
+      console.error('A API Web Speech não está disponível neste navegador.');
+    }
+  </script>
 </body>
+
 </html>
