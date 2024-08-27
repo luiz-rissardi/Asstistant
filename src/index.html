@@ -9,61 +9,36 @@
 
 <body>
   <app-root></app-root>
-  <h1>Reconhecimento de Fala Contínuo</h1>
-  <button id="start-btn">Iniciar</button>
-  <button id="stop-btn">Parar</button>
+
   <script>
     // Verifica se o navegador suporta a API Web Speech
-    if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
-      const SpeechRecognition = window.webkitSpeechRecognition
-      const recognition = new SpeechRecognition();
-      recognition.continuous = true; // Continua reconhecendo mesmo após uma pausa
-      // recognition.interimResults = true; // Mostra resultados intermediários
-      recognition.lang = 'pt-BR'; // Define o idioma para Português Brasileiro
 
-      recognition.onresult = (event) => {
-        let finalTranscript = '';
-        let interimTranscript = '';
+    // const utterance = new SpeechSynthesisUtterance('Olá, como você está?');
 
-        for (let i = event.resultIndex; i < event.results.length; i++) {
-          const transcript = event.results[i][0].transcript;
-          if (event.results[i].isFinal) {
-            finalTranscript += transcript + ' ';
-            alert('Texto final:', finalTranscript);
-          } else {
-            interimTranscript += transcript;
-          }
-        }
+    // Define a voz e outras propriedades (opcional)
+    console.log(speechSynthesis.getVoices()[0]);
 
-        // Atualiza o texto no console com resultados intermediários e finais
-        alert('Texto intermediário:', interimTranscript);
-      };
+    // speechSynthesis.speak(utterance);
 
-      recognition.onstart = () => {
-        alert('Reconhecimento de fala iniciado...');
-      };
+    // if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+    //   const SpeechRecognition = window.webkitSpeechRecognition
+    //   const recognition = new SpeechRecognition();
 
-      recognition.onend = () => {
-        alert('Reconhecimento de fala terminou. Reiniciando...');
-        recognition.start(); // Reinicia o reconhecimento de fala se terminar
-      };
+    //   recognition.continuous = true; // Continua reconhecendo mesmo após uma pausa
+    //   recognition.lang = 'pt-BR'; // Define o idioma para Português Brasileiro
 
-      recognition.onerror = (event) => {
-        alert('Erro no reconhecimento de fala:', event.error);
-        // Reinicia o reconhecimento se ocorrer um erro
-        recognition.start();
-      };
 
-      document.getElementById('start-btn').addEventListener('click', () => {
-        recognition.start();
-      });
+    //   // Define o que fazer quando a fala for reconhecida
+    //   recognition.onresult = (event) => {
+    //     const transcript = event.results[0][0].transcript;
+    //     alert('Você disse: ', transcript);
+    //   };
 
-      document.getElementById('stop-btn').addEventListener('click', () => {
-        recognition.stop();
-      });
-    } else {
-      console.error('A API Web Speech não está disponível neste navegador.');
-    }
+    //   // Inicia o reconhecimento de fala
+    //   recognition.start();
+    // } else {
+    //   console.error('A API Web Speech não está disponível neste navegador.');
+    // }
   </script>
 </body>
 
