@@ -1,30 +1,31 @@
+import { CommonModule } from '@angular/common';
 import { Component, afterNextRender } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet,CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
   title = 'Assistant';
-  private utterance;
+  protected isAnimated = false
+  private utterance:any;
 
-  constructor() {
-    afterNextRender(async () => {
-      // Cria uma nova instância de SpeechSynthesisUtterance
-      speechSynthesis.onvoiceschanged = () => {
-        alert("pronto para uso");
-      };
-      const utterance = new SpeechSynthesisUtterance('Olá, como você está?');
-      this.utterance = utterance; 
-      // Define a voz e outras propriedades (opcional)
-      utterance.voice = speechSynthesis.getVoices()[0] // Seleciona a primeira voz disponível
-      utterance.pitch = -10; // Ajusta o tom
-      utterance.rate = 2; // Ajusta a velocidade
-    });
+
+  start(){
+    this.isAnimated = !this.isAnimated;
+    const utterance = new SpeechSynthesisUtterance('Olá, como você está?');
+    this.utterance = utterance; 
+    // Define a voz e outras propriedades (opcional)
+    utterance.voice = speechSynthesis.getVoices()[0] // Seleciona a primeira voz disponível
+    utterance.pitch = -2; // Ajusta o tom
+    utterance.rate = 1; // Ajusta a velocidade
+    speechSynthesis.onvoiceschanged = () => {
+      alert("pronto para uso");
+    };
   }
   
   speak(){

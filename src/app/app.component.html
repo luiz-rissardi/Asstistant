@@ -1,8 +1,9 @@
-<div class="container">
-  <div class="big-circle"> </div>
-  <div class="mid-circle"> </div>
-  <div class="mini-circle"> </div>
-  <div class="fast-circle"> </div>
+
+<div class="container" (click)="start()">
+  <div class="big-circle" [ngClass]="{'animated-big-circle': isAnimated, 'no-animation': !isAnimated}"></div>
+  <div class="mid-circle" [ngClass]="{'animated-mid-circle': isAnimated, 'no-animation': !isAnimated}"></div>
+  <div class="mini-circle" [ngClass]="{'animated-mini-circle': isAnimated, 'no-animation': !isAnimated}"></div>
+  <div class="fast-circle" [ngClass]="{'animated-fast-circle': isAnimated, 'no-animation': !isAnimated}"></div>
 </div>
 
 
