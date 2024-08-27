@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, afterNextRender } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
@@ -16,7 +16,7 @@ export class AppComponent {
 
 
   start(){
-    this.isAnimated = !this.isAnimated;
+    this.isAnimated = true;
     const utterance = new SpeechSynthesisUtterance('Olá, como você está?');
     this.utterance = utterance; 
     // Define a voz e outras propriedades (opcional)
