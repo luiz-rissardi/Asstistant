@@ -1,6 +1,6 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { CommonEngine } from '@angular/ssr';
-import express from 'express';
+import express, { Router } from 'express';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
 import bootstrap from './src/main.server';
@@ -8,6 +8,8 @@ import bootstrap from './src/main.server';
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
+  const routes = personalityRoutes();
+  server.use(routes)
   const serverDistFolder = dirname(fileURLToPath(import.meta.url));
   const browserDistFolder = resolve(serverDistFolder, '../browser');
   const indexHtml = join(serverDistFolder, 'index.server.html');
@@ -42,6 +44,16 @@ export function app(): express.Express {
   });
 
   return server;
+}
+
+function personalityRoutes() {
+  const routes = Router();
+  routes.route("/api/music").get((req, res) => {
+    res.write("sua musica esta aqui")
+    res.end()
+  })
+
+  return routes;
 }
 
 function run(): void {
