@@ -21,7 +21,6 @@ export class AppComponent {
     afterNextRender(
       this.startOnSpeech
     )
-    this.start();
   }
 
   start() {
