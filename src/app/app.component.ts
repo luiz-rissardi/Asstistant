@@ -53,6 +53,11 @@ export class AppComponent {
     alert("pode falar")
     // Inicia o reconhecimento de fala
     recognition.start();
+
+    setTimeout(() => {
+      recognition.stop()
+    }, 8000);
+
   }
 
   speak(output:string) {
