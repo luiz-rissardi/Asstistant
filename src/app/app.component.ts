@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { afterNextRender, Component, Signal, signal, WritableSignal } from '@angular/core';
+import { afterNextRender, Component, signal, WritableSignal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AssistantFacade } from './facade/assistantFacade';
 import { MusicComponent } from './components/music/music.component';
