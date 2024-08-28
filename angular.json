@@ -17,6 +17,14 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            "allowedCommonJsDependencies": [
+              "ytmusic-api",
+              "axios",
+              "form-data",
+              "tough-cookie",
+              "proxy-from-env",
+              "follow-redirects"
+            ],
             "outputPath": "dist/assistant",
             "index": "src/index.html",
             "browser": "src/main.ts",

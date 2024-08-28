@@ -1,4 +1,5 @@
-import { AfterContentInit, Component, input, OnInit, Signal } from '@angular/core';
+import { AfterContentInit, Component, input, OnInit, signal, Signal } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-music',
@@ -7,12 +8,16 @@ import { AfterContentInit, Component, input, OnInit, Signal } from '@angular/cor
   templateUrl: './music.component.html',
   styleUrl: './music.component.scss'
 })
-export class MusicComponent implements OnInit{
+export class MusicComponent implements OnInit {
 
   songData = input<any>();
-  protected sourceVideo: string = "";
+  protected sourceVideo = signal<SafeResourceUrl>("");
+
+  constructor(private sanitizer: DomSanitizer) {}
 
   ngOnInit(): void {
-    this.sourceVideo = `https://www.youtube.com/embed/${this.songData().videoId}?autoplay=1`
+    const url = `https://www.youtube.com/embed/${this.songData()[0].videoId}?autoplay=1`;
+    console.log(url);
+    this.sourceVideo.set(this.sanitizer.bypassSecurityTrustResourceUrl(url))
   }
 }

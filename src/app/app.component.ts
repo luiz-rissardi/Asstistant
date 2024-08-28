@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { afterNextRender, Component, signal, WritableSignal } from '@angular/core';
+import { afterNextRender, ChangeDetectionStrategy, Component, signal, WritableSignal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AssistantFacade } from './facade/assistantFacade';
 import { MusicComponent } from './components/music/music.component';
@@ -9,7 +9,8 @@ import { MusicComponent } from './components/music/music.component';
   standalone: true,
   imports: [RouterOutlet, CommonModule, MusicComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
+  // changeDetection:ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
   title = 'Assistant';
@@ -27,19 +28,23 @@ export class AppComponent {
 
         recognition.onresult = async (event: any) => {
           const transcript = event.results[0][0].transcript;
-          this.resultIA.set(await this.assistantFacade.handlerInput(transcript));
-          alert("messagem!!!")
-          alert(this.resultIA().message)
-          this.speak(this.resultIA().message)
+          const result = this.assistantFacade.handlerInput(transcript)
+          result.sourceData.subscribe(data => {
+            this.resultIA.set({ ...result, data });
+            this.speak(result.message)
+          })
         };
 
         // Inicia o reconhecimento de fala
         recognition.start();
 
-        setTimeout(() => {
-          alert("parando");
-          recognition.stop()
-        }, 10000);
+        // setTimeout(async () => {
+        //   const result = this.assistantFacade.handlerInput("jarvis tocar banda acdc")
+        //   result.sourceData.subscribe(data => {
+        //     this.resultIA.set({ ...result, data });
+        //     this.speak(result.message)
+        //   })
+        // }, 3000);
       })
   }
 

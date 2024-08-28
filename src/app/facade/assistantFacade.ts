@@ -8,7 +8,7 @@ export class AssistantFacade {
 
     constructor(private masterHandlerService: MasterHandlerService) { }
 
-    async handlerInput(input: string) {
+    handlerInput(input: string) {
         if (input.includes("jarvis")) {
             if (input.includes("tocar") || input.includes("musica") || input.includes("banda")) {
                 // procurar por banda
@@ -16,9 +16,10 @@ export class AssistantFacade {
                     const regex = /(?:banda)\s+(\w+)/
                     const match = input.match(regex)[1];
                     if (match) {
-                        const musicVideos = await this.masterHandlerService.getMusica(match);
+                        const source = this.masterHandlerService.getSongs(match);
                         return {
-                            data: musicVideos,
+                            sourceData: source,
+                            data:null,
                             type:"song",
                             message: `aqui esta musicas da banda ${match}, aproveite o som na faixa`
                         }
@@ -29,9 +30,10 @@ export class AssistantFacade {
                     const regex = /(?:banda)\s+(\w+)/
                     const match = input.match(regex)[1];
                     if (match) {
-                        const musicVideo = await this.masterHandlerService.getMusica(match);
+                        const source = this.masterHandlerService.getSongs(match);
                         return {
-                            data: musicVideo[0],
+                            sourceData: source,
+                            data:null,
                             type:"song",
                             message: `aqui esta musica ${match} que o senhor pediu, aproveite o som na faixa`
                         }

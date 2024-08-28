@@ -11,6 +11,7 @@ export class MasterHandlerService {
   // private modelIa: GenerativeModel;
   // private YTApi: YTMusic = new YTMusic();
   // private messageHistory: any[] = [];
+  private rootEndPoint: string = "http://localhost:4000/api/ia/"
 
   constructor(private http: HttpClient) {
     // this.YTApi.initialize()
@@ -24,9 +25,8 @@ export class MasterHandlerService {
     // )
   }
 
-  async getMusica(musicName: string) {
-    // const songs = await this.YTApi.searchSongs(musicName);
-    // return songs
+  getSongs(musicName: string) {
+    return this.http.get(`${this.rootEndPoint}music?music=${musicName}`)
   }
 
   async getWeatherForecast(CityName: string) {
