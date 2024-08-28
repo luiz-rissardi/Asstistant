@@ -19,7 +19,9 @@ export class AppComponent {
 
   constructor(private assistantFacade: AssistantFacade) {
     afterNextRender(
-      this.startOnSpeech
+      ()=>{
+        this.startOnSpeech()
+      }
     )
   }
 
