@@ -45,6 +45,7 @@ export class AppComponent {
     recognition.onresult = async (event: any) => {
       const transcript = event.results[0][0].transcript;
       this.resultIA.set(await this.assistantFacade.handlerInput(transcript));
+      alert(this.resultIA().message)
       this.speak(this.resultIA().message)
     };
     alert("pode falar")
