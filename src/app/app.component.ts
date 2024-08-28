@@ -21,17 +21,18 @@ export class AppComponent {
     afterNextRender(
       this.startOnSpeech
     )
+    this.start();
   }
 
   start() {
     this.isAnimated = true;
     const utterance = new SpeechSynthesisUtterance();
-    utterance.text = "Boa tarde senhor, como posso ajuda-lo?";
     this.utterance = utterance;
     // Define a voz e outras propriedades (opcional)
     utterance.voice = speechSynthesis.getVoices()[0] // Seleciona a primeira voz disponível
     utterance.pitch = -2; // Ajusta o tom
     utterance.rate = 2; // Ajusta a velocidade
+    this.speak("Boa tarde senhor, como posso ajuda-lo?")
 
   }
 
@@ -47,7 +48,7 @@ export class AppComponent {
       this.resultIA.set(await this.assistantFacade.handlerInput(transcript));
       this.speak(this.resultIA().message)
     };
-
+    alert("pode falar")
     // Inicia o reconhecimento de fala
     recognition.start();
   }
