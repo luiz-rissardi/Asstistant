@@ -7,7 +7,7 @@ import { MusicComponent } from './components/music/music.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule,MusicComponent],
+  imports: [RouterOutlet, CommonModule, MusicComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -19,10 +19,28 @@ export class AppComponent {
 
   constructor(private assistantFacade: AssistantFacade) {
     afterNextRender(
-      ()=>{
-        this.startOnSpeech()
-      }
-    )
+      async () => {
+        const SpeechRecognition = (window as any).webkitSpeechRecognition
+        const recognition = new SpeechRecognition();
+        recognition.continuous = true; // Continua reconhecendo mesmo após uma pausa
+        recognition.lang = 'pt-BR'; // Define o idioma para Português Brasileiro
+
+        recognition.onresult = async (event: any) => {
+          const transcript = event.results[0][0].transcript;
+          this.resultIA.set(await this.assistantFacade.handlerInput(transcript));
+          alert("messagem!!!")
+          alert(this.resultIA().message)
+          this.speak(this.resultIA().message)
+        };
+
+        // Inicia o reconhecimento de fala
+        recognition.start();
+
+        setTimeout(() => {
+          alert("parando");
+          recognition.stop()
+        }, 10000);
+      })
   }
 
   start() {
@@ -37,30 +55,8 @@ export class AppComponent {
 
   }
 
-  startOnSpeech() {
-    const SpeechRecognition = (window as any).webkitSpeechRecognition
-    const recognition = new SpeechRecognition();
-    recognition.continuous = true; // Continua reconhecendo mesmo após uma pausa
-    recognition.lang = 'pt-BR'; // Define o idioma para Português Brasileiro
 
-    // Define o que fazer quando a fala for reconhecida
-    recognition.onresult = async (event: any) => {
-      const transcript = event.results[0][0].transcript;
-      this.resultIA.set(await this.assistantFacade.handlerInput(transcript));
-      alert(this.resultIA().message)
-      this.speak(this.resultIA().message)
-    };
-    alert("pode falar")
-    // Inicia o reconhecimento de fala
-    recognition.start();
-
-    setTimeout(() => {
-      recognition.stop()
-    }, 8000);
-
-  }
-
-  speak(output:string) {
+  speak(output: string) {
     this.utterance.text = output;
     speechSynthesis.speak(this.utterance);
   }
