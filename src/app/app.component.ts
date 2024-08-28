@@ -1,73 +1,58 @@
 import { CommonModule } from '@angular/common';
-import { afterNextRender, ChangeDetectionStrategy, Component, signal, WritableSignal } from '@angular/core';
+import { afterNextRender, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { AssistantFacade } from './facade/assistantFacade';
-import { MusicComponent } from './components/music/music.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, MusicComponent],
+  imports: [RouterOutlet, CommonModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
-  // changeDetection:ChangeDetectionStrategy.OnPush
+  styleUrl: './app.component.scss'
 })
 export class AppComponent {
   title = 'Assistant';
   protected isAnimated = false
   private utterance: any;
-  protected resultIA: WritableSignal<any> = signal({});
 
-  constructor(private assistantFacade: AssistantFacade) {
-    afterNextRender(
-      async () => {
-        const SpeechRecognition = (window as any).webkitSpeechRecognition
-        const recognition = new SpeechRecognition();
-        recognition.continuous = true; // Continua reconhecendo mesmo após uma pausa
-        recognition.lang = 'pt-BR'; // Define o idioma para Português Brasileiro
+  constructor() {
+    afterNextRender(async () => {
+      const SpeechRecognition = (window as any).webkitSpeechRecognition
+      const recognition = new SpeechRecognition();
+      recognition.continuous = true; // Continua reconhecendo mesmo após uma pausa
+      recognition.lang = 'pt-BR'; // Define o idioma para Português Brasileiro
 
-        recognition.onresult = async (event: any) => {
-          const transcript = event.results[0][0].transcript;
-          const result = this.assistantFacade.handlerInput(transcript)
-          result.sourceData.subscribe(data => {
-            this.resultIA.set({ ...result, data });
-            this.speak(result.message)
-          })
-        };
+      // Define o que fazer quando a fala for reconhecida
+      recognition.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript;
+        alert(`voce disse ${transcript}`);
+      };
 
-        // Inicia o reconhecimento de fala
-        recognition.start();
+      // Inicia o reconhecimento de fala
+      recognition.start();
 
-        // setTimeout(async () => {
-        //   const result = this.assistantFacade.handlerInput("jarvis tocar banda acdc")
-        //   result.sourceData.subscribe(data => {
-        //     this.resultIA.set({ ...result, data });
-        //     this.speak(result.message)
-        //   })
-        // }, 3000);
-
-        setTimeout(() => {
-          alert("parando");
-          recognition.stop()
-        }, 10000);
-      })
+      setTimeout(() => {
+        alert("parando");
+        recognition.stop()
+      }, 10000);
+    })
   }
 
   start() {
     this.isAnimated = true;
-    const utterance = new SpeechSynthesisUtterance();
+    const utterance = new SpeechSynthesisUtterance('Olá, como você está?');
     this.utterance = utterance;
     // Define a voz e outras propriedades (opcional)
     utterance.voice = speechSynthesis.getVoices()[0] // Seleciona a primeira voz disponível
     utterance.pitch = -2; // Ajusta o tom
-    utterance.rate = 2; // Ajusta a velocidade
-    this.speak("Boa tarde senhor, como posso ajuda-lo?")
+    utterance.rate = 1; // Ajusta a velocidade
 
   }
 
+  startOnSpeech() {
 
-  speak(output: string) {
-    this.utterance.text = output;
+  }
+
+  speak() {
     speechSynthesis.speak(this.utterance);
   }
 }
