@@ -6,15 +6,7 @@
   <div class="fast-circle" [ngClass]="{'animated-fast-circle': isAnimated, 'no-animation': !isAnimated}"></div>
 </div>
 
+@if (this.resultIA.type == "song") {
+  <app-music [songData]="this.resultIA.data"></app-music>
+}
 
-<button (click)="speak()">falar</button>
-<!-- <iframe 
-width="560" 
-height="315" 
-src="https://www.youtube.com/embed/MW8RKweDoaE?autoplay=1" 
-title="YouTube video player" 
-frameborder="0" 
-allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-referrerpolicy="strict-origin-when-cross-origin" 
-allowfullscreen>
-</iframe> -->
