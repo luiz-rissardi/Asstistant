@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { afterNextRender, Component, signal, WritableSignal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AssistantFacade } from './facade/assistantFacade';
+import { MusicComponent } from './components/music/music.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule],
+  imports: [RouterOutlet, CommonModule,MusicComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -36,11 +37,6 @@ export class AppComponent {
 
       // Inicia o reconhecimento de fala
       recognition.start();
-
-      setTimeout(() => {
-        alert("parando");
-        recognition.stop()
-      }, 10000);
     })
   }
 
