@@ -45,6 +45,11 @@ export class AppComponent {
         //     this.speak(result.message)
         //   })
         // }, 3000);
+
+        setTimeout(() => {
+          alert("parando");
+          recognition.stop()
+        }, 10000);
       })
   }
 
