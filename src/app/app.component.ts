@@ -31,7 +31,6 @@ export class AppComponent implements OnInit {
     // Define o que fazer quando a fala for reconhecida
     this.recognition.onresult = (event: any) => {
       const transcript = event.results[0][0].transcript;
-      alert(`voce disse ${transcript}`);
       const result = this.assistantFacade.handlerInput(transcript)
       result.sourceData.subscribe(data => {
         this.resultIA.set({ ...result, data });
@@ -40,6 +39,14 @@ export class AppComponent implements OnInit {
       this.recognition.stop();
       this.isAnimated = false;
     };
+
+    setTimeout(() => {
+      const result = this.assistantFacade.handlerInput("jarvis tocar banda credence")
+      result.sourceData.subscribe(data => {
+        this.resultIA.set({ ...result, data });
+        this.speak(result.message)
+      })
+    }, 1000);
 
     this.recognition.onerror = (event: any) => {
       this.recognition.stop();

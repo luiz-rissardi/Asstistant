@@ -5,40 +5,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reconhecimento de Fala Contínuo</title>
+  <script src="https://www.youtube.com/iframe_api"></script>
 </head>
 
 <body>
   <app-root></app-root>
 
-  <script>
-    // Verifica se o navegador suporta a API Web Speech
-
-    // const utterance = new SpeechSynthesisUtterance('Olá, como você está?');
-
-    // Define a voz e outras propriedades (opcional)
-
-    // speechSynthesis.speak(utterance);
-
-    // if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
-    //   const SpeechRecognition = window.webkitSpeechRecognition
-    //   const recognition = new SpeechRecognition();
-
-    //   recognition.continuous = true; // Continua reconhecendo mesmo após uma pausa
-    //   recognition.lang = 'pt-BR'; // Define o idioma para Português Brasileiro
-
-
-    //   // Define o que fazer quando a fala for reconhecida
-    //   recognition.onresult = (event) => {
-    //     const transcript = event.results[0][0].transcript;
-    //     alert('Você disse: ', transcript);
-    //   };
-
-    //   // Inicia o reconhecimento de fala
-    //   recognition.start();
-    // } else {
-    //   console.error('A API Web Speech não está disponível neste navegador.');
-    // }
-  </script>
 </body>
 
 </html>

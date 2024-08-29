@@ -14,7 +14,7 @@ export class AssistantFacade {
             if (inputFormat.includes("tocar") || inputFormat.includes("musica") || inputFormat.includes("banda")) {
                 // procurar por banda
                 if (inputFormat.includes("banda")) {
-                    const regex = /(?:banda)\s+(\w+)/
+                    const regex = /banda\s+(.+)/
                     const match = inputFormat.match(regex)[1];
                     if (match) {
                         const source = this.masterHandlerService.getSongs(match);
@@ -22,13 +22,13 @@ export class AssistantFacade {
                             sourceData: source,
                             data:null,
                             type:"song",
-                            message: `aqui esta musicas da banda ${match}, aproveite o som na faixa`
+                            message: `aqui esta musicas da banda ${match} e musicas semelhantes, aproveite o som na faixa`
                         }
                     }
 
                 } // procurar por musica individual
                 else {
-                    const regex = /(?:musica)\s+(\w+)/
+                    const regex = /musica\s+(.+)/
                     const match = inputFormat.match(regex)[1];
                     if (match) {
                         const source = this.masterHandlerService.getSongs(match);
@@ -36,7 +36,7 @@ export class AssistantFacade {
                             sourceData: source,
                             data:null,
                             type:"song",
-                            message: `aqui esta musica ${match} que o senhor pediu, aproveite o som na faixa`
+                            message: `aqui esta musica ${match} e musicas semelhantes, aproveite o som na faixa`
                         }
                     }
                 }
