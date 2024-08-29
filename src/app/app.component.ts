@@ -33,6 +33,15 @@ export class AppComponent {
           this.resultIA.set({ ...result, data });
           this.speak(result.message)
         })
+        recognition.stop();
+        recognition.start();
+      };
+
+      recognition.onerror = (event: any) => {
+        alert("Erro de reconhecimento de fala");
+        if (event.error === 'no-speech' || event.error === 'network') {
+          recognition.start();
+        }
       };
 
       // setTimeout(async () => {
