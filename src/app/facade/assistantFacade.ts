@@ -9,12 +9,13 @@ export class AssistantFacade {
     constructor(private masterHandlerService: MasterHandlerService) { }
 
     handlerInput(input: string) {
-        if (input.includes("jarvis")) {
-            if (input.includes("tocar") || input.includes("musica") || input.includes("banda")) {
+        const inputFormat = input.toLocaleLowerCase()
+        if (inputFormat.includes("jarvis")) {
+            if (inputFormat.includes("tocar") || inputFormat.includes("musica") || inputFormat.includes("banda")) {
                 // procurar por banda
-                if (input.includes("banda")) {
+                if (inputFormat.includes("banda")) {
                     const regex = /(?:banda)\s+(\w+)/
-                    const match = input.match(regex)[1];
+                    const match = inputFormat.match(regex)[1];
                     if (match) {
                         const source = this.masterHandlerService.getSongs(match);
                         return {
@@ -28,7 +29,7 @@ export class AssistantFacade {
                 } // procurar por musica individual
                 else {
                     const regex = /(?:musica)\s+(\w+)/
-                    const match = input.match(regex)[1];
+                    const match = inputFormat.match(regex)[1];
                     if (match) {
                         const source = this.masterHandlerService.getSongs(match);
                         return {
