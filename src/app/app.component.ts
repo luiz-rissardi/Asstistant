@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { afterNextRender, AfterRenderRef, Component, OnInit, signal, WritableSignal } from '@angular/core';
+import { afterNextRender, AfterRenderRef, ChangeDetectionStrategy, Component, computed, OnInit, signal, WritableSignal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AssistantFacade } from './facade/assistantFacade';
 import { MusicComponent } from './components/music/music.component';
@@ -9,18 +9,19 @@ import { MusicComponent } from './components/music/music.component';
   standalone: true,
   imports: [RouterOutlet, CommonModule, MusicComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class AppComponent implements OnInit {
   title = 'Assistant';
   protected isAnimated = false
   private utterance: any;
-  private recognition:any;
+  private recognition: any;
   protected resultIA: WritableSignal<any> = signal("");
 
   constructor(private assistantFacade: AssistantFacade) {
   }
-  
+
   ngOnInit(): void {
     const SpeechRecognition = (window as any).webkitSpeechRecognition
     this.recognition = new SpeechRecognition();
