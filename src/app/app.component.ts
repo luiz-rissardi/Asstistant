@@ -40,14 +40,6 @@ export class AppComponent implements OnInit {
       this.isAnimated = false;
     };
 
-    setTimeout(() => {
-      const result = this.assistantFacade.handlerInput("jarvis tocar banda credence")
-      result.sourceData.subscribe(data => {
-        this.resultIA.set({ ...result, data });
-        this.speak(result.message)
-      })
-    }, 1000);
-
     this.recognition.onerror = (event: any) => {
       this.recognition.stop();
       this.isAnimated = false;
