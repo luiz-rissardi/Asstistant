@@ -35,13 +35,13 @@ export class AppComponent {
         })
       };
 
-      setTimeout(async () => {
-        const result = this.assistantFacade.handlerInput("jarvis tocar banda acdc")
-        result.sourceData.subscribe(data => {
-          this.resultIA.set({ ...result, data });
-          this.speak(result.message)
-        })
-      }, 3000);
+      // setTimeout(async () => {
+      //   const result = this.assistantFacade.handlerInput("jarvis tocar banda acdc")
+      //   result.sourceData.subscribe(data => {
+      //     this.resultIA.set({ ...result, data });
+      //     this.speak(result.message)
+      //   })
+      // }, 3000);
 
       // Inicia o reconhecimento de fala
       recognition.start();
@@ -55,7 +55,7 @@ export class AppComponent {
     // Define a voz e outras propriedades (opcional)
     this.utterance.voice = speechSynthesis.getVoices()[0] // Seleciona a primeira voz disponível
     this.utterance.pitch = -2; // Ajusta o tom
-    this.utterance.rate = -1; // Ajusta a velocidade
+    this.utterance.rate = 1; // Ajusta a velocidade
     this.speak("Boa tarde senhor, como posso ajudar ?")
 
   }
