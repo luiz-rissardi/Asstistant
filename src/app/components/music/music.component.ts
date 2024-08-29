@@ -8,27 +8,34 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   templateUrl: './music.component.html',
   styleUrl: './music.component.scss'
 })
-export class MusicComponent implements AfterViewInit {
+export class MusicComponent  {
 
   songData = input<any>();
   private player: any;
   private songIndexCurrent: number = 0;
 
+  constructor(){
+    effect(()=>{
+      this.player.destroy()
+      this.playVideo(this.songData().data[this.songIndexCurrent])
+    })
+  }
+
   ngAfterViewInit(): void {
     // Verifica se a API já foi carregada
     if ((window as any).YT) {
-      this.playVideo();
+      this.playVideo(this.songData().data[this.songIndexCurrent])
     } else {
       // Cria um callback para inicializar o player quando a API carregar
-      (window as any).onYouTubeIframeAPIReady = () => this.playVideo();
+      (window as any).onYouTubeIframeAPIReady = () => this.playVideo(this.songData().data[this.songIndexCurrent]);
     }
   }
 
-  playVideo() {
+  playVideo(songData:any) {
     this.player = new (window as any).YT.Player('player', {
       height: '350px',
       width: '300px',
-      videoId: this.songData().data[0].videoId, // Substitua pelo ID do vídeo que você deseja exibir
+      videoId: songData.videoId, // Substitua pelo ID do vídeo que você deseja exibir
       events: {
         'onReady': this.onPlayerReady.bind(this),
         'onStateChange': this.onPlayerStateChange.bind(this),
