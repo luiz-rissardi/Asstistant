@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { afterNextRender, AfterRenderRef, Component, signal, WritableSignal } from '@angular/core';
+import { afterNextRender, AfterRenderRef, Component, OnInit, signal, WritableSignal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AssistantFacade } from './facade/assistantFacade';
 import { MusicComponent } from './components/music/music.component';
@@ -11,7 +11,7 @@ import { MusicComponent } from './components/music/music.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent implements AfterRenderRef {
+export class AppComponent implements OnInit {
   title = 'Assistant';
   protected isAnimated = false
   private utterance: any;
@@ -19,7 +19,8 @@ export class AppComponent implements AfterRenderRef {
 
   constructor(private assistantFacade: AssistantFacade) {
   }
-  destroy(): void {
+  
+  ngOnInit(): void {
     const SpeechRecognition = (window as any).webkitSpeechRecognition
     const recognition = new SpeechRecognition();
     recognition.continuous = true; // Continua reconhecendo mesmo após uma pausa
@@ -34,11 +35,12 @@ export class AppComponent implements AfterRenderRef {
         this.resultIA.set({ ...result, data });
         this.speak(result.message)
       })
-      // recognition.stop();
+      recognition.stop();
       recognition.start();
     };
 
     recognition.onerror = (event: any) => {
+      recognition.stop();
       alert("Erro de reconhecimento de fala");
       if (event.error === 'no-speech' || event.error === 'network') {
         recognition.start();
