@@ -47,6 +47,11 @@ export class AppComponent implements OnInit {
       }
     };
 
+    recognition.onend = () => {
+      alert("Reconhecimento de fala terminou.");
+      recognition.start()
+    };
+
     // Inicia o reconhecimento de fala
     recognition.start();
   }
