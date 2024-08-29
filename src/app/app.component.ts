@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { afterNextRender, Component, signal, WritableSignal } from '@angular/core';
+import { afterNextRender, AfterRenderRef, Component, signal, WritableSignal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AssistantFacade } from './facade/assistantFacade';
 import { MusicComponent } from './components/music/music.component';
@@ -11,50 +11,42 @@ import { MusicComponent } from './components/music/music.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements AfterRenderRef {
   title = 'Assistant';
   protected isAnimated = false
   private utterance: any;
   protected resultIA: WritableSignal<any> = signal("");
 
   constructor(private assistantFacade: AssistantFacade) {
-    afterNextRender(async () => {
-      const SpeechRecognition = (window as any).webkitSpeechRecognition
-      const recognition = new SpeechRecognition();
-      recognition.continuous = true; // Continua reconhecendo mesmo após uma pausa
-      recognition.lang = 'pt-BR'; // Define o idioma para Português Brasileiro
+  }
+  destroy(): void {
+    const SpeechRecognition = (window as any).webkitSpeechRecognition
+    const recognition = new SpeechRecognition();
+    recognition.continuous = true; // Continua reconhecendo mesmo após uma pausa
+    recognition.lang = 'pt-BR'; // Define o idioma para Português Brasileiro
 
-      // Define o que fazer quando a fala for reconhecida
-      recognition.onresult = (event: any) => {
-        const transcript = event.results[0][0].transcript;
-        alert(`voce disse ${transcript}`);
-        const result = this.assistantFacade.handlerInput(transcript)
-        result.sourceData.subscribe(data => {
-          this.resultIA.set({ ...result, data });
-          this.speak(result.message)
-        })
-        recognition.stop();
-        recognition.start();
-      };
-
-      recognition.onerror = (event: any) => {
-        alert("Erro de reconhecimento de fala");
-        if (event.error === 'no-speech' || event.error === 'network') {
-          recognition.start();
-        }
-      };
-
-      // setTimeout(async () => {
-      //   const result = this.assistantFacade.handlerInput("jarvis tocar banda acdc")
-      //   result.sourceData.subscribe(data => {
-      //     this.resultIA.set({ ...result, data });
-      //     this.speak(result.message)
-      //   })
-      // }, 3000);
-
-      // Inicia o reconhecimento de fala
+    // Define o que fazer quando a fala for reconhecida
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[0][0].transcript;
+      alert(`voce disse ${transcript}`);
+      const result = this.assistantFacade.handlerInput(transcript)
+      result.sourceData.subscribe(data => {
+        this.resultIA.set({ ...result, data });
+        this.speak(result.message)
+      })
+      // recognition.stop();
       recognition.start();
-    })
+    };
+
+    recognition.onerror = (event: any) => {
+      alert("Erro de reconhecimento de fala");
+      if (event.error === 'no-speech' || event.error === 'network') {
+        recognition.start();
+      }
+    };
+
+    // Inicia o reconhecimento de fala
+    recognition.start();
   }
 
   start() {
