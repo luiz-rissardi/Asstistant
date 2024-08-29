@@ -8,14 +8,15 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   templateUrl: './music.component.html',
   styleUrl: './music.component.scss'
 })
-export class MusicComponent  {
+export class MusicComponent {
 
   songData = input<any>();
   private player: any;
   private songIndexCurrent: number = 0;
 
-  constructor(){
-    effect(()=>{
+  constructor() {
+    effect(() => {
+      this.songIndexCurrent = 0
       this.player.destroy()
       this.playVideo(this.songData().data[this.songIndexCurrent])
     })
@@ -31,7 +32,7 @@ export class MusicComponent  {
     }
   }
 
-  playVideo(songData:any) {
+  playVideo(songData: any) {
     this.player = new (window as any).YT.Player('player', {
       height: '350px',
       width: '300px',
