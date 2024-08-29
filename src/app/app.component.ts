@@ -15,6 +15,7 @@ export class AppComponent implements OnInit {
   title = 'Assistant';
   protected isAnimated = false
   private utterance: any;
+  private recognition:any;
   protected resultIA: WritableSignal<any> = signal("");
 
   constructor(private assistantFacade: AssistantFacade) {
@@ -22,12 +23,12 @@ export class AppComponent implements OnInit {
   
   ngOnInit(): void {
     const SpeechRecognition = (window as any).webkitSpeechRecognition
-    const recognition = new SpeechRecognition();
-    recognition.continuous = true; // Continua reconhecendo mesmo após uma pausa
-    recognition.lang = 'pt-BR'; // Define o idioma para Português Brasileiro
+    this.recognition = new SpeechRecognition();
+    this.recognition.continuous = true; // Continua reconhecendo mesmo após uma pausa
+    this.recognition.lang = 'pt-BR'; // Define o idioma para Português Brasileiro
 
     // Define o que fazer quando a fala for reconhecida
-    recognition.onresult = (event: any) => {
+    this.recognition.onresult = (event: any) => {
       const transcript = event.results[0][0].transcript;
       alert(`voce disse ${transcript}`);
       const result = this.assistantFacade.handlerInput(transcript)
@@ -35,24 +36,21 @@ export class AppComponent implements OnInit {
         this.resultIA.set({ ...result, data });
         this.speak(result.message)
       })
-      recognition.stop();
-      recognition.start();
+      this.recognition.stop();
+      this.isAnimated = false;
     };
 
-    recognition.onerror = (event: any) => {
-      recognition.stop();
+    this.recognition.onerror = (event: any) => {
+      this.recognition.stop();
+      this.isAnimated = false;
       alert("Erro de reconhecimento de fala");
-      if (event.error === 'no-speech' || event.error === 'network') {
-        recognition.start();
-      }
     };
 
-    recognition.onend = () => {
-      recognition.start()
+    this.recognition.onend = () => {
+      this.isAnimated = false;
     };
 
     // Inicia o reconhecimento de fala
-    recognition.start();
   }
 
   start() {
@@ -64,6 +62,7 @@ export class AppComponent implements OnInit {
     this.utterance.pitch = -2; // Ajusta o tom
     this.utterance.rate = 1; // Ajusta a velocidade
     this.speak("Boa tarde senhor, como posso ajudar ?")
+    this.recognition.start();
 
   }
 
@@ -100,11 +99,11 @@ export class AppComponent {
     afterNextRender(
       async () => {
         const SpeechRecognition = (window as any).webkitSpeechRecognition
-        const recognition = new SpeechRecognition();
-        recognition.continuous = true; // Continua reconhecendo mesmo após uma pausa
-        recognition.lang = 'pt-BR'; // Define o idioma para Português Brasileiro
+        const this.recognition = new SpeechRecognition();
+        this.recognition.continuous = true; // Continua reconhecendo mesmo após uma pausa
+        this.recognition.lang = 'pt-BR'; // Define o idioma para Português Brasileiro
 
-        recognition.onresult = async (event: any) => {
+        this.recognition.onresult = async (event: any) => {
           const transcript = event.results[0][0].transcript;
           const result = this.assistantFacade.handlerInput(transcript)
           result.sourceData.subscribe(data => {
@@ -114,7 +113,7 @@ export class AppComponent {
         };
 
         // Inicia o reconhecimento de fala
-        recognition.start();
+        this.recognition.start();
 
         // setTimeout(async () => {
         //   const result = this.assistantFacade.handlerInput("jarvis tocar banda acdc")
@@ -126,7 +125,7 @@ export class AppComponent {
 
         setTimeout(() => {
           alert("parando");
-          recognition.stop()
+          this.recognition.stop()
         }, 10000);
       })
   }
