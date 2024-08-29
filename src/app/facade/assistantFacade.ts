@@ -27,7 +27,7 @@ export class AssistantFacade {
 
                 } // procurar por musica individual
                 else {
-                    const regex = /(?:banda)\s+(\w+)/
+                    const regex = /(?:musica)\s+(\w+)/
                     const match = input.match(regex)[1];
                     if (match) {
                         const source = this.masterHandlerService.getSongs(match);

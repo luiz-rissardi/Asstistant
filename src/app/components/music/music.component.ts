@@ -17,7 +17,6 @@ export class MusicComponent implements OnInit {
 
   ngOnInit(): void {
     const url = `https://www.youtube.com/embed/${this.songData()[0].videoId}?autoplay=1`;
-    console.log(url);
     this.sourceVideo.set(this.sanitizer.bypassSecurityTrustResourceUrl(url))
   }
 }

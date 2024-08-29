@@ -11,7 +11,7 @@ export class MasterHandlerService {
   // private modelIa: GenerativeModel;
   // private YTApi: YTMusic = new YTMusic();
   // private messageHistory: any[] = [];
-  private rootEndPoint: string = "http://localhost:4000/api/ia/"
+  private rootEndPoint: string = "https://back-end-assistant-production.up.railway.app/api/ia/"
 
   constructor(private http: HttpClient) {
     // this.YTApi.initialize()
@@ -26,7 +26,11 @@ export class MasterHandlerService {
   }
 
   getSongs(musicName: string) {
-    return this.http.get(`${this.rootEndPoint}music?music=${musicName}`)
+    return this.http.get(`${this.rootEndPoint}music?music=${musicName}`, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
   }
 
   async getWeatherForecast(CityName: string) {

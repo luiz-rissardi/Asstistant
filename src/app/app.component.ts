@@ -7,7 +7,7 @@ import { MusicComponent } from './components/music/music.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule,MusicComponent],
+  imports: [RouterOutlet, CommonModule, MusicComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -35,6 +35,14 @@ export class AppComponent {
         })
       };
 
+      setTimeout(async () => {
+        const result = this.assistantFacade.handlerInput("jarvis tocar banda acdc")
+        result.sourceData.subscribe(data => {
+          this.resultIA.set({ ...result, data });
+          this.speak(result.message)
+        })
+      }, 3000);
+
       // Inicia o reconhecimento de fala
       recognition.start();
     })
@@ -47,11 +55,11 @@ export class AppComponent {
     // Define a voz e outras propriedades (opcional)
     this.utterance.voice = speechSynthesis.getVoices()[0] // Seleciona a primeira voz disponível
     this.utterance.pitch = -2; // Ajusta o tom
-    this.utterance.rate = 2; // Ajusta a velocidade
-    this.speak("Boa tarde senhor, como posso ajuda-lo?")
+    this.utterance.rate = -1; // Ajusta a velocidade
+    this.speak("Boa tarde senhor, como posso ajudar ?")
 
   }
-  
+
   speak(output: string) {
     this.utterance.text = output;
     speechSynthesis.speak(this.utterance);
