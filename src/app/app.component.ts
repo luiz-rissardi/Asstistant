@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     const SpeechRecognition = (window as any).webkitSpeechRecognition
     const recognition = new SpeechRecognition();
-    recognition.continuous = true; // Continua reconhecendo mesmo após uma pausa
+    recognition.continuous = false; // Continua reconhecendo mesmo após uma pausa
     recognition.lang = 'pt-BR'; // Define o idioma para Português Brasileiro
 
     // Define o que fazer quando a fala for reconhecida
