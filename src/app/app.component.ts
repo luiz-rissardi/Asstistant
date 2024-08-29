@@ -50,7 +50,6 @@ export class AppComponent implements OnInit {
       this.isAnimated = false;
     };
 
-    // Inicia o reconhecimento de fala
   }
 
   start() {
@@ -61,7 +60,6 @@ export class AppComponent implements OnInit {
     this.utterance.voice = speechSynthesis.getVoices()[0] // Seleciona a primeira voz disponível
     this.utterance.pitch = -2; // Ajusta o tom
     this.utterance.rate = 1; // Ajusta a velocidade
-    this.speak("Boa tarde senhor, como posso ajudar ?")
     this.recognition.start();
 
   }
