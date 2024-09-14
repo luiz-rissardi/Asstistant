@@ -67,23 +67,6 @@ const trainingData = [
     { command: "abra o navegador", label: 2 },
     { command: "defina um lembrete", label: 2 },
     { command: "verifique o e-mail", label: 2 },
-    { command: "faça uma pesquisa na web", label: 2 },
-    { command: "crie um lembrete para amanhã", label: 2 },
-    { command: "inicie o Spotify", label: 2 },
-    { command: "gere um relatório financeiro", label: 2 },
-    { command: "mostre a previsão do tempo para amanhã", label: 2 },
-    { command: "calcule a soma de 15 e 25", label: 2 },
-    { command: "crie um novo documento de texto", label: 2 },
-    { command: "envie uma mensagem para Ana", label: 2 },
-    { command: "abra o aplicativo de notas", label: 2 },
-    { command: "faça uma ligação para o João", label: 2 },
-    { command: "crie um evento no calendário para sexta-feira", label: 2 },
-    { command: "mostre as notícias do dia", label: 2 },
-    { command: "leia um livro para mim", label: 2 },
-    { command: "abra o Google Drive", label: 2 },
-    { command: "traduza este texto para inglês", label: 2 },
-    { command: "reproduza um podcast sobre tecnologia", label: 2 },
-    { command: "verifique se há atualizações do sistema", label: 2 },
     { command: "atualize meu status no LinkedIn", label: 2 },
     { command: "faça uma reserva em um restaurante italiano", label: 2 },
     { command: "ajuste o brilho da tela para 50%", label: 2 },
@@ -181,7 +164,7 @@ function predict(inputVector) {
 }
 
 // Função para treinar a rede neural
-function train(trainingData, epochs = 80000, learningRate = 0.02, delta = 1) {
+function train(trainingData, epochs = 60000, learningRate = 0.02, delta = 1) {
     const maxLength = inputSize;  // Tamanho fixo das entradas
 
     for (let epoch = 0; epoch < epochs; epoch++) {
